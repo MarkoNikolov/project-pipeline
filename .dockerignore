@@ -1,0 +1,8 @@
+helm/
+terraform/
+.git/
+.dockerignore
+.gitignore
+Dockerfile
+Jenkinsfile
+README.md
