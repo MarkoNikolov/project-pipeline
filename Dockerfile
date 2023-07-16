@@ -1,3 +1,5 @@
+#for smaller image
+
 FROM python:3.11-alpine as base
 FROM base as builder
 
