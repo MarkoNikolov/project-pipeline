@@ -66,6 +66,7 @@ nodes:
     protocol: TCP
 KINDEOF
 
+/usr/local/bin/kubectl create secret docker-registry regcred   --docker-server=036104832939.dkr.ecr.eu-central-1.amazonaws.com   --docker-username=AWS   --docker-password=$(aws ecr get-login-password --region eu-central-1)
 mkdir /var/lib/jenkins/.kube/
 mv .kube/config /var/lib/jenkins/.kube
 chown -R jenkins: /var/lib/jenkins/.kube
