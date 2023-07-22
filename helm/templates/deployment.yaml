@@ -21,3 +21,4 @@ spec:
         - containerPort: {{ .Values.deployment.port }} 
       imagePullSecrets:
           - name: regcred
+      imagePullPolicy: Always
