@@ -1,3 +1,3 @@
 resource "aws_ecr_repository" "ecr" {
-  name = "flaskapp"
+  name = var.aws_ecr_repository_name
 }

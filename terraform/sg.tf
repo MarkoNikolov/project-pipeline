@@ -1,7 +1,7 @@
 resource "aws_security_group" "allow_tls" {
   name        = "allow-jenkins"
   description = "Jenkins security group"
-  vpc_id      = "vpc-00bda4c936615e5bc"
+  vpc_id      = var.aws_vpc_id
 
   ingress {
     from_port   = 8080

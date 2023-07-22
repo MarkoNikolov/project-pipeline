@@ -11,15 +11,14 @@ data "aws_ami" "amazon-linux-2" {
 }
 
 resource "aws_network_interface" "interface" {
-  subnet_id = "subnet-00492a4620aad1579" #!
-  #private_ips     = ["172.31.1.1"]              #!
+  subnet_id = var.aws_network_subnet_id
   security_groups = [aws_security_group.allow_tls.id]
 }
 
 resource "aws_instance" "ec2" {
   depends_on    = [aws_network_interface.interface]
   ami           = data.aws_ami.amazon-linux-2.id
-  instance_type = "t2.medium" #!
+  instance_type = var.aws_instance_type
   #user_data                  =   filebase64("./user_data.sh")
   #user_data_replace_on_change = true
   user_data = <<EOF
