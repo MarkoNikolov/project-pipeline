@@ -34,6 +34,7 @@ pipeline {
         stage("Deploy"){
             steps {
                 script {
+                    def commit_tag = env.GIT_COMMIT ?: "latest"
                     sh "helm upgrade flask helm/ --install --set image=$image_name:$commit_tag --wait --atomic"
                 }
             }
