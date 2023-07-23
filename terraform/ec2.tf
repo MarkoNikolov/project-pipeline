@@ -24,9 +24,9 @@ resource "aws_instance" "ec2" {
   user_data = <<EOF
 #!/bin/bash
 
-export PATH=/usr/local/bin/:$PATH
-#echo 'export PATH=$PATH:/usr/local/bin' >> /root/.bash_profile
-#source /root/.bash_profile
+#export PATH=/usr/local/bin/:$PATH
+echo 'export PATH=$PATH:/usr/local/bin/' >> /root/.bash_profile
+source /root/.bash_profile
 
 
 ##### JENKINS #######
