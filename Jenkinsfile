@@ -26,6 +26,7 @@ pipeline {
         stage("Push"){
             steps {
                 script {
+                    def commit_tag = env.GIT_COMMIT ?: "latest"
                     sh "docker push $image_name:$commit_tag"
                 }
             }
