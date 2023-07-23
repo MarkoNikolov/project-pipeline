@@ -8,15 +8,10 @@ pipeline {
         stage("Login") {
             steps {
                 script {
-                    withCredentials([
-                        usernamePassword(
-                            credentialsId: 'aws-ecr-credentials',
-                            usernameVariable: 'AWS_ACCESS_KEY_ID',
-                            passwordVariable: 'AWS_SECRET_ACCESS_KEY'
-                        )
-                    ]) {
-                        sh "aws ecr get-login-password --region $region | docker login --username AWS --password-stdin 036104832939.dkr.ecr.eu-central-1.amazonaws.com"
-                    }
+                    def awsEcrLoginCmd = "aws ecr get-login-password --region $region"
+                    def dockerLoginCmd = "docker login --username AWS --password-stdin 036104832939.dkr.ecr.eu-central-1.amazonaws.com"
+                    def loginCmdOutput = sh(returnStdout: true, script: awsEcrLoginCmd).trim()
+                    sh "echo ${loginCmdOutput} | ${dockerLoginCmd}"
                 }
             }
         }
