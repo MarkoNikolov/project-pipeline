@@ -7,27 +7,25 @@ pipeline {
     stages{
         stage("Build"){
             steps {
-                sh '''
-                aws ecr get-login-password --region $region | docker login --username AWS --password-stdin 036104832939.dkr.ecr.eu-central-1.amazonaws.com
-                docker build -t $image_name:latest .
-                '''
-
+                script {
+                    def commit_tag = env.GIT_COMMIT ?: "latest"
+                    docker build -t $image_name:$commit_tag .
+                }
             }
         }
         stage("Push"){
             steps {
-                sh '''
-                docker push $image_name:latest
-                '''
-
+                script {
+                    aws ecr get-login-password --region $region | docker login --username AWS --password-stdin 036104832939.dkr.ecr.eu-central-1.amazonaws.com
+                    docker push $image_name:$commit_tag
+                }
             }
         }
         stage("Deploy"){
             steps {
-                sh '''
-                helm upgrade flask helm/ --install --wait --atomic
-                '''
-
+                script {
+                    helm upgrade flask helm/ --install --set image=$image_name:$commit_tag --wait --atomic
+                }
             }
         }
     }
