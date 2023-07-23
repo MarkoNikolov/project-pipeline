@@ -2,24 +2,26 @@ resource "aws_ecr_repository" "ecr" {
   name = var.aws_ecr_repository_name
 }
 
-resource "aws_ecr_lifecycle_policy" "ecr_policy" {
+resource "aws_ecr_lifecycle_policy" "foopolicy" {
   repository = aws_ecr_repository.ecr.name
 
-  policy = jsonencode({
-    rules = [
-      {
-        "rulePriority"    : 10,
-        "description"     : "Expire old images",
-        "selection"       : {
-          "tagStatus"        : "tagged",
-          "countType"        : "imageCountMoreThan",
-          "countNumber"      : 10,
-          "countUnit"        : "image"
-        },
-        "action"          : {
-          "type"             : "expire"
+  policy = <<EOF
+{
+    "rules": [
+        {
+            "rulePriority": 1,
+            "description": "Keep last 10 images",
+            "selection": {
+                "tagStatus": "tagged",
+                "tagPrefixList": ["v"],
+                "countType": "imageCountMoreThan",
+                "countNumber": 10
+            },
+            "action": {
+                "type": "expire"
+            }
         }
-      }
     ]
-  })
+}
+EOF
 }
